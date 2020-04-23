@@ -10,6 +10,8 @@ import com.asdf.exceptions.rest.ResourceNotFoundExceptionMS;
 import com.asdf.managers.EmployeeManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -131,7 +133,8 @@ public class EmployeeDataService {
         List<EmployeeResource> old = deleteEmployeeResources();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            EmployeeDto[] emps = objectMapper.readValue(new File("src\\main\\resources\\employees.json"), EmployeeDto[].class);
+            Resource resource = new ClassPathResource("employees.json");
+            EmployeeDto[] emps = objectMapper.readValue(resource.getFile(), EmployeeDto[].class);
             for(EmployeeDto emp : emps){
                 addEmployeeDto(emp);
             }
