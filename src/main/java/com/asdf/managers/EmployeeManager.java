@@ -5,6 +5,7 @@ import com.asdf.dataObjects.EmployeeEntity;
 import com.asdf.dataObjects.EmployeeResource;
 import com.asdf.database.EmployeeRepository;
 import com.asdf.exceptions.ResourceNotFoundException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -112,4 +113,11 @@ public class EmployeeManager {
         }
         return sers;
     }
+
+    public List<Employee> deleteEmployees() {
+        List<Employee> emps = getEmployees();
+        employeeRepository.deleteAll();
+        return emps;
+    }
+
 }

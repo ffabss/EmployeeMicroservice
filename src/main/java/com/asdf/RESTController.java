@@ -18,9 +18,20 @@ public class RESTController {
     @Autowired
     private EmployeeDataService employeeDataService;
 
+
+    @RequestMapping(value ="/reset", method = RequestMethod.GET)
+    public HttpEntity<List<EmployeeResource>> resetEmployees() {
+        return new HttpEntity<>(employeeDataService.resetEmployeeResources());
+    }
+
     @RequestMapping(value ="/employees", method = RequestMethod.GET)
     public HttpEntity<List<EmployeeResource>> getAllEmployees() {
         return new HttpEntity<>(employeeDataService.getEmployeeResources());
+    }
+
+    @RequestMapping(value ="/employees/clear", method = RequestMethod.DELETE)
+    public HttpEntity<List<EmployeeResource>> deleteAllEmployees() {
+        return new HttpEntity<>(employeeDataService.deleteEmployeeResources());
     }
 
     @RequestMapping(value ="/employees/{skip}/{amount}", method = RequestMethod.GET)

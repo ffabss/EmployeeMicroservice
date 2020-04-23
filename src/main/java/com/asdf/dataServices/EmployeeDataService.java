@@ -8,9 +8,12 @@ import com.asdf.exceptions.ResourceNotFoundException;
 import com.asdf.exceptions.rest.InvalidDataExceptionMS;
 import com.asdf.exceptions.rest.ResourceNotFoundExceptionMS;
 import com.asdf.managers.EmployeeManager;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +35,7 @@ public class EmployeeDataService {
 
     public List<EmployeeResource> getEmployeeResources(int skip, int amount) {
         List<EmployeeResource> emps = new ArrayList<>();
-        for (Employee emp : employeeManager.getEmployees(skip,amount)) {
+        for (Employee emp : employeeManager.getEmployees(skip, amount)) {
             emps.add(empToResource(emp));
         }
         return emps;
@@ -116,4 +119,25 @@ public class EmployeeDataService {
         return empToResource(res);
     }
 
+    public List<EmployeeResource> deleteEmployeeResources() {
+        List<EmployeeResource> emps = new ArrayList<>();
+        for (Employee emp : employeeManager.deleteEmployees()) {
+            emps.add(empToResource(emp));
+        }
+        return emps;
+    }
+
+    public List<EmployeeResource> resetEmployeeResources() {
+        List<EmployeeResource> old = deleteEmployeeResources();
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            EmployeeDto[] emps = objectMapper.readValue(new File("src\\main\\resources\\employees.json"), EmployeeDto[].class);
+            for(EmployeeDto emp : emps){
+                addEmployeeDto(emp);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return old;
+    }
 }
