@@ -33,6 +33,8 @@ public class EmployeeDataService {
         EmployeeResource er = new EmployeeResource();
         er.setId(emp.getId());
         er.setAddress(locationIQDataService.getAddress(emp.getLongitude(), emp.getLatitude()));
+        er.setLatitude(emp.getLatitude());
+        er.setLongitude(emp.getLongitude());
         er.setName(emp.getName());
         return er;
     }
