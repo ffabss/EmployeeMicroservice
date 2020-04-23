@@ -140,7 +140,7 @@ public class EmployeeDataService {
         RestTemplate restTemplate = new RestTemplate();
         try {
             EmployeeDto[] response = restTemplate.getForObject(
-                    "https://api.mockaroo.com/api/ea2f3e50?count=20&key=e507b8a0",
+                    "https://my.api.mockaroo.com/employeedto.json?key=e507b8a0",
                     EmployeeDto[].class);
             for(EmployeeDto emp : response){
                 addEmployeeDto(emp);
