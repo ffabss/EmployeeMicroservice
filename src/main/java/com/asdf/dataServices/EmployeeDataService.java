@@ -29,6 +29,15 @@ public class EmployeeDataService {
         return emps;
     }
 
+
+    public List<EmployeeResource> getEmployeeResources(int skip, int amount) {
+        List<EmployeeResource> emps = new ArrayList<>();
+        for (Employee emp : employeeManager.getEmployees(skip,amount)) {
+            emps.add(empToResource(emp));
+        }
+        return emps;
+    }
+
     private EmployeeResource empToResource(Employee emp) {
         EmployeeResource er = new EmployeeResource();
         er.setId(emp.getId());
@@ -106,4 +115,5 @@ public class EmployeeDataService {
         Employee res = employeeManager.putEmployee(empId, empDtoToEmp(employeeDto));
         return empToResource(res);
     }
+
 }

@@ -8,12 +8,19 @@ import com.asdf.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Component
 public class EmployeeManager {
+    @Autowired
+    EntityManager entityManager;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -84,5 +91,25 @@ public class EmployeeManager {
         empe.setId(empId);
         employeeRepository.save(empe);
         return res;
+    }
+
+    public List<Employee> getEmployees(int skip, int amount) {
+        List<Employee> sers = new ArrayList<>();
+
+        CriteriaBuilder criteriaBuilder = entityManager
+                .getCriteriaBuilder();
+        CriteriaQuery<EmployeeEntity> criteriaQuery = criteriaBuilder
+                .createQuery(EmployeeEntity.class);
+        Root<EmployeeEntity> from = criteriaQuery.from(EmployeeEntity.class);
+        CriteriaQuery<EmployeeEntity> select = criteriaQuery.select(from);
+        TypedQuery<EmployeeEntity> typedQuery = entityManager.createQuery(select);
+        typedQuery.setFirstResult(skip);
+        typedQuery.setMaxResults(amount);
+        List<EmployeeEntity> resultList = typedQuery.getResultList();
+
+        for (EmployeeEntity sere : resultList) {
+            sers.add(convertEntityToEmp(sere));
+        }
+        return sers;
     }
 }

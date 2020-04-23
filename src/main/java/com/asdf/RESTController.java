@@ -23,10 +23,16 @@ public class RESTController {
         return new HttpEntity<>(employeeDataService.getEmployeeResources());
     }
 
+    @RequestMapping(value ="/employees/{skip}/{amount}", method = RequestMethod.GET)
+    public HttpEntity<List<EmployeeResource>> getEmployees(@PathVariable int skip,@PathVariable int amount) {
+        return new HttpEntity<>(employeeDataService.getEmployeeResources(skip,amount));
+    }
+
     @RequestMapping(value ="/employees/{empId}", method = RequestMethod.GET)
     public HttpEntity<EmployeeResource> getEmployee(@PathVariable int empId) {
         return new HttpEntity<>(employeeDataService.getEmployee(empId));
     }
+
 
     @RequestMapping(value ="/employees/{empId}", method = RequestMethod.DELETE)
     public HttpEntity<EmployeeResource> deleteEmployee(@PathVariable int empId) {
