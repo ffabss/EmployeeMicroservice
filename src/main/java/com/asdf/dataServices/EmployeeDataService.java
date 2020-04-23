@@ -3,8 +3,10 @@ package com.asdf.dataServices;
 import com.asdf.dataObjects.Employee;
 import com.asdf.dataObjects.EmployeeDto;
 import com.asdf.dataObjects.EmployeeResource;
+import com.asdf.dataObjects.location.LocationResource;
 import com.asdf.dataObjects.location.LongitudeLatitude;
 import com.asdf.exceptions.ResourceNotFoundException;
+import com.asdf.exceptions.rest.InternalServerException;
 import com.asdf.exceptions.rest.InvalidDataExceptionMS;
 import com.asdf.exceptions.rest.ResourceNotFoundExceptionMS;
 import com.asdf.managers.EmployeeManager;
@@ -13,11 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class EmployeeDataService {
@@ -131,15 +137,15 @@ public class EmployeeDataService {
 
     public List<EmployeeResource> resetEmployeeResources() {
         List<EmployeeResource> old = deleteEmployeeResources();
-        ObjectMapper objectMapper = new ObjectMapper();
+        RestTemplate restTemplate = new RestTemplate();
         try {
-            Resource resource = new ClassPathResource("employees.json");
-            EmployeeDto[] emps = objectMapper.readValue(resource.getFile(), EmployeeDto[].class);
-            for(EmployeeDto emp : emps){
+            EmployeeDto[] response = restTemplate.getForObject(
+                    "https://api.mockaroo.com/api/ea2f3e50?count=20&key=e507b8a0",
+                    EmployeeDto[].class);
+            for(EmployeeDto emp : response){
                 addEmployeeDto(emp);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (RestClientResponseException e) {
         }
         return old;
     }
