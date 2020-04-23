@@ -149,4 +149,8 @@ public class EmployeeDataService {
         }
         return old;
     }
+
+    public List<Integer> getValidIds() {
+        return employeeManager.getValidIds();
+    }
 }

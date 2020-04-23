@@ -24,6 +24,11 @@ public class RESTController {
         return new HttpEntity<>(employeeDataService.resetEmployeeResources());
     }
 
+    @RequestMapping(value ="/validIds", method = RequestMethod.GET)
+    public HttpEntity<List<Integer>> getValidIds() {
+        return new HttpEntity<>(employeeDataService.getValidIds());
+    }
+
     @RequestMapping(value ="/employees", method = RequestMethod.GET)
     public HttpEntity<List<EmployeeResource>> getAllEmployees() {
         return new HttpEntity<>(employeeDataService.getEmployeeResources());

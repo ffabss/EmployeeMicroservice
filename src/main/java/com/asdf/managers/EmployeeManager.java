@@ -120,4 +120,7 @@ public class EmployeeManager {
         return emps;
     }
 
+    public List<Integer> getValidIds() {
+        return employeeRepository.findAllIds();
+    }
 }
