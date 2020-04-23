@@ -10,6 +10,6 @@ import java.util.List;
 
 @Component
 public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integer> {
-    @Query("from EmployeeEntity id")
+    @Query("select id from EmployeeEntity")
     public List<Integer> findAllIds();
 }
