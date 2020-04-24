@@ -131,7 +131,7 @@ public class EmployeeDataService {
         List<EmployeeResource> old = deleteEmployeeResources();
         if (amount > 100) amount = 100;
 
-        String url = String.format("https://my.api.mockaroo.com/employeedto.json?key=e507b8a0?count=%d", amount);
+        String url = String.format("https://api.mockaroo.com/api/ea2f3e50?count=%d&key=e507b8a0", amount);
         RestTemplate restTemplate = new RestTemplate();
         try {
             EmployeeDto[] response = restTemplate.getForObject(
