@@ -123,4 +123,8 @@ public class EmployeeManager {
     public List<Integer> getValidIds() {
         return employeeRepository.findAllIds();
     }
+
+    public long countEmployees() {
+        return employeeRepository.count();
+    }
 }

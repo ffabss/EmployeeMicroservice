@@ -153,4 +153,8 @@ public class EmployeeDataService {
     public List<Integer> getValidIds() {
         return employeeManager.getValidIds();
     }
+
+    public long countEmployees() {
+        return employeeManager.countEmployees();
+    }
 }

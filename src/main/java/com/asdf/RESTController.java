@@ -19,49 +19,54 @@ public class RESTController {
     private EmployeeDataService employeeDataService;
 
 
-    @RequestMapping(value ="/reset", method = RequestMethod.GET)
+    @RequestMapping(value = "/reset", method = RequestMethod.GET)
     public HttpEntity<List<EmployeeResource>> resetEmployees() {
         return new HttpEntity<>(employeeDataService.resetEmployeeResources());
     }
 
-    @RequestMapping(value ="/validIds", method = RequestMethod.GET)
+    @RequestMapping(value = "/validIds", method = RequestMethod.GET)
     public HttpEntity<List<Integer>> getValidIds() {
         return new HttpEntity<>(employeeDataService.getValidIds());
     }
 
-    @RequestMapping(value ="/employees", method = RequestMethod.GET)
+    @RequestMapping(value = "/employees/count", method = RequestMethod.GET)
+    public HttpEntity<Long> countEmployees() {
+        return new HttpEntity<>(employeeDataService.countEmployees());
+    }
+
+    @RequestMapping(value = "/employees", method = RequestMethod.GET)
     public HttpEntity<List<EmployeeResource>> getAllEmployees() {
         return new HttpEntity<>(employeeDataService.getEmployeeResources());
     }
 
-    @RequestMapping(value ="/employees/clear", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/employees/clear", method = RequestMethod.DELETE)
     public HttpEntity<List<EmployeeResource>> deleteAllEmployees() {
         return new HttpEntity<>(employeeDataService.deleteEmployeeResources());
     }
 
-    @RequestMapping(value ="/employees/{skip}/{amount}", method = RequestMethod.GET)
-    public HttpEntity<List<EmployeeResource>> getEmployees(@PathVariable int skip,@PathVariable int amount) {
-        return new HttpEntity<>(employeeDataService.getEmployeeResources(skip,amount));
+    @RequestMapping(value = "/employees/{skip}/{amount}", method = RequestMethod.GET)
+    public HttpEntity<List<EmployeeResource>> getEmployees(@PathVariable int skip, @PathVariable int amount) {
+        return new HttpEntity<>(employeeDataService.getEmployeeResources(skip, amount));
     }
 
-    @RequestMapping(value ="/employees/{empId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/employees/{empId}", method = RequestMethod.GET)
     public HttpEntity<EmployeeResource> getEmployee(@PathVariable int empId) {
         return new HttpEntity<>(employeeDataService.getEmployee(empId));
     }
 
 
-    @RequestMapping(value ="/employees/{empId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/employees/{empId}", method = RequestMethod.DELETE)
     public HttpEntity<EmployeeResource> deleteEmployee(@PathVariable int empId) {
         return new HttpEntity<>(employeeDataService.deleteEmployee(empId));
     }
 
-    @RequestMapping(value ="/employees/{empId}", method = RequestMethod.PUT)
-    public HttpEntity<EmployeeResource> putEmployee(@PathVariable int empId,@RequestBody EmployeeDto employeeDto) {
-        return new HttpEntity<>(employeeDataService.putEmployee(empId,employeeDto));
+    @RequestMapping(value = "/employees/{empId}", method = RequestMethod.PUT)
+    public HttpEntity<EmployeeResource> putEmployee(@PathVariable int empId, @RequestBody EmployeeDto employeeDto) {
+        return new HttpEntity<>(employeeDataService.putEmployee(empId, employeeDto));
     }
 
-    @RequestMapping(value ="/employees", method = RequestMethod.POST)
-    public EmployeeResource addEmployee(@RequestBody EmployeeDto employeeDto){
+    @RequestMapping(value = "/employees", method = RequestMethod.POST)
+    public EmployeeResource addEmployee(@RequestBody EmployeeDto employeeDto) {
         return employeeDataService.addEmployeeDto(employeeDto);
     }
 }
