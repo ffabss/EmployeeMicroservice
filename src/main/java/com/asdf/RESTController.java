@@ -29,7 +29,7 @@ public class RESTController {
         return new HttpEntity<>(employeeDataService.getValidIds());
     }
 
-    @RequestMapping(value = "/employees/count", method = RequestMethod.GET)
+    @RequestMapping(value = "/countEmployees", method = RequestMethod.GET)
     public HttpEntity<Long> countEmployees() {
         return new HttpEntity<>(employeeDataService.countEmployees());
     }
@@ -39,7 +39,7 @@ public class RESTController {
         return new HttpEntity<>(employeeDataService.getEmployeeResources());
     }
 
-    @RequestMapping(value = "/employees/clear", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/clearEmployees", method = RequestMethod.DELETE)
     public HttpEntity<List<EmployeeResource>> deleteAllEmployees() {
         return new HttpEntity<>(employeeDataService.deleteEmployeeResources());
     }
