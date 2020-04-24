@@ -3,27 +3,19 @@ package com.asdf.dataServices;
 import com.asdf.dataObjects.Employee;
 import com.asdf.dataObjects.EmployeeDto;
 import com.asdf.dataObjects.EmployeeResource;
-import com.asdf.dataObjects.location.LocationResource;
 import com.asdf.dataObjects.location.LongitudeLatitude;
 import com.asdf.exceptions.ResourceNotFoundException;
 import com.asdf.exceptions.rest.InternalServerException;
 import com.asdf.exceptions.rest.InvalidDataExceptionMS;
 import com.asdf.exceptions.rest.ResourceNotFoundExceptionMS;
 import com.asdf.managers.EmployeeManager;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class EmployeeDataService {
@@ -135,17 +127,21 @@ public class EmployeeDataService {
         return emps;
     }
 
-    public List<EmployeeResource> resetEmployeeResources() {
+    public List<EmployeeResource> resetEmployeeResources(int amount) {
         List<EmployeeResource> old = deleteEmployeeResources();
+        if (amount > 100) amount = 100;
+
+        String url = String.format("https://my.api.mockaroo.com/employeedto.json?key=e507b8a0?count=%d", amount);
         RestTemplate restTemplate = new RestTemplate();
         try {
             EmployeeDto[] response = restTemplate.getForObject(
-                    "https://my.api.mockaroo.com/employeedto.json?key=e507b8a0",
+                    url,
                     EmployeeDto[].class);
-            for(EmployeeDto emp : response){
+            for (EmployeeDto emp : response) {
                 addEmployeeDto(emp);
             }
         } catch (RestClientResponseException e) {
+            new InternalServerException(e);
         }
         return old;
     }

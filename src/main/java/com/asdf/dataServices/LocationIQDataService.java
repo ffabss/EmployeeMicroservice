@@ -3,7 +3,6 @@ package com.asdf.dataServices;
 import com.asdf.dataObjects.location.LocationResource;
 import com.asdf.dataObjects.location.LongitudeLatitude;
 import com.asdf.exceptions.rest.InternalServerException;
-import com.sun.org.apache.xpath.internal.objects.XString;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -16,7 +15,7 @@ public class LocationIQDataService {
     private static final String LOCATION_IQ_URL = "https://eu1.locationiq.com/v1/search.php?key={apiKey}&q={searchString}&format=json";
     private static final String LOCATION_IQ_REVERSE_URL = "https://eu1.locationiq.com/v1/reverse.php?key={apiKey}&lat={lat}&lon={lon}&format=json";
 
-    private final int MAX_TRIES = 10;
+    private final int MAX_TRIES = 50;
     private int currentKeyID = 0;
     private static final String[] API_KEYs = {"34f5a525bf298a", "b06efbe4532f08",
             "201e218b2b48a4", "1d6c03484794a5", "6ddac64cdf0664", "4f7a4411e0fcbb",

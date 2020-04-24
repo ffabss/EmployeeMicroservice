@@ -21,7 +21,11 @@ public class RESTController {
 
     @RequestMapping(value = "/reset", method = RequestMethod.GET)
     public HttpEntity<List<EmployeeResource>> resetEmployees() {
-        return new HttpEntity<>(employeeDataService.resetEmployeeResources());
+        return resetEmployees(10);
+    }
+    @RequestMapping(value = "/reset/{amount:[\\\\d]+}", method = RequestMethod.GET)
+    public HttpEntity<List<EmployeeResource>> resetEmployees(@PathVariable int amount) {
+        return new HttpEntity<>(employeeDataService.resetEmployeeResources(amount));
     }
 
     @RequestMapping(value = "/validIds", method = RequestMethod.GET)
@@ -44,23 +48,22 @@ public class RESTController {
         return new HttpEntity<>(employeeDataService.deleteEmployeeResources());
     }
 
-    @RequestMapping(value = "/employees/{skip}/{amount}", method = RequestMethod.GET)
+    @RequestMapping(value = "/employees/{skip:[\\\\d]+}/{amount:[\\\\d]+}", method = RequestMethod.GET)
     public HttpEntity<List<EmployeeResource>> getEmployees(@PathVariable int skip, @PathVariable int amount) {
         return new HttpEntity<>(employeeDataService.getEmployeeResources(skip, amount));
     }
 
-    @RequestMapping(value = "/employees/{empId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/employees/{empId:[\\\\d]+}", method = RequestMethod.GET)
     public HttpEntity<EmployeeResource> getEmployee(@PathVariable int empId) {
         return new HttpEntity<>(employeeDataService.getEmployee(empId));
     }
 
-
-    @RequestMapping(value = "/employees/{empId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/employees/{empId:[\\\\d]+}", method = RequestMethod.DELETE)
     public HttpEntity<EmployeeResource> deleteEmployee(@PathVariable int empId) {
         return new HttpEntity<>(employeeDataService.deleteEmployee(empId));
     }
 
-    @RequestMapping(value = "/employees/{empId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/employees/{:[\\\\d]+}", method = RequestMethod.PUT)
     public HttpEntity<EmployeeResource> putEmployee(@PathVariable int empId, @RequestBody EmployeeDto employeeDto) {
         return new HttpEntity<>(employeeDataService.putEmployee(empId, employeeDto));
     }
