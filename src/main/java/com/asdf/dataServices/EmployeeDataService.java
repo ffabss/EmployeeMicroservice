@@ -131,18 +131,7 @@ public class EmployeeDataService {
         List<EmployeeResource> old = deleteEmployeeResources();
         if (amount > 100) amount = 100;
 
-        String url = String.format("https://api.mockaroo.com/api/ea2f3e50?count=%d&key=e507b8a0", amount);
-        RestTemplate restTemplate = new RestTemplate();
-        try {
-            EmployeeDto[] response = restTemplate.getForObject(
-                    url,
-                    EmployeeDto[].class);
-            for (EmployeeDto emp : response) {
-                addEmployeeDto(emp);
-            }
-        } catch (RestClientResponseException e) {
-            new InternalServerException(e);
-        }
+        employeeManager.addEmployee_Mock(amount);
         return old;
     }
 

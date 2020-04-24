@@ -1,11 +1,15 @@
 package com.asdf.managers;
 
 import com.asdf.dataObjects.Employee;
+import com.asdf.dataObjects.EmployeeDto;
 import com.asdf.dataObjects.EmployeeEntity;
 import com.asdf.database.EmployeeRepository;
 import com.asdf.exceptions.ResourceNotFoundException;
+import com.asdf.exceptions.rest.InternalServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -124,5 +128,20 @@ public class EmployeeManager {
 
     public long countEmployees() {
         return employeeRepository.count();
+    }
+
+    public void addEmployee_Mock(int amount) {
+        String url = String.format("https://api.mockaroo.com/api/b8e08bc0?count=%d&key=e507b8a0", amount);
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            Employee[] response = restTemplate.getForObject(
+                    url,
+                    Employee[].class);
+            for (Employee emp : response) {
+                addEmployee(emp);
+            }
+        } catch (RestClientResponseException e) {
+            new InternalServerException(e);
+        }
     }
 }
