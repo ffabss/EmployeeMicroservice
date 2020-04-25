@@ -24,27 +24,27 @@ public class EmployeeDataService {
     @Autowired
     private LocationIQDataService locationIQDataService;
 
-    public List<EmployeeResource> getEmployeeResources() {
+    public List<EmployeeResource> getEmployeeResources(boolean address) {
         List<EmployeeResource> emps = new ArrayList<>();
         for (Employee emp : employeeManager.getEmployees()) {
-            emps.add(empToResource(emp));
+            emps.add(empToResource(emp, address));
         }
         return emps;
     }
 
 
-    public List<EmployeeResource> getEmployeeResources(int skip, int amount) {
+    public List<EmployeeResource> getEmployeeResources(int skip, int amount, boolean address) {
         List<EmployeeResource> emps = new ArrayList<>();
         for (Employee emp : employeeManager.getEmployees(skip, amount)) {
-            emps.add(empToResource(emp));
+            emps.add(empToResource(emp, address));
         }
         return emps;
     }
 
-    private EmployeeResource empToResource(Employee emp) {
+    private EmployeeResource empToResource(Employee emp, boolean address) {
         EmployeeResource er = new EmployeeResource();
         er.setId(emp.getId());
-        er.setAddress(locationIQDataService.getAddress(emp.getLongitude(), emp.getLatitude()));
+        er.setAddress(address ? locationIQDataService.getAddress(emp.getLongitude(), emp.getLatitude()) : "");
         er.setLatitude(emp.getLatitude());
         er.setLongitude(emp.getLongitude());
         er.setName(emp.getName());
@@ -71,27 +71,27 @@ public class EmployeeDataService {
         return emp;
     }
 
-    public EmployeeResource addEmployeeDto(EmployeeDto employeeDto) {
+    public EmployeeResource addEmployeeDto(EmployeeDto employeeDto, boolean address) {
         checkEmployeeDto(employeeDto);
 
         Employee emp = empDtoToEmp(employeeDto);
 
         Employee res = employeeManager.addEmployee(emp);
 
-        return empToResource(res);
+        return empToResource(res, address);
     }
 
-    public EmployeeResource getEmployee(int empId) {
+    public EmployeeResource getEmployee(int empId, boolean address) {
         try {
-            return empToResource(employeeManager.getEmployee(empId));
+            return empToResource(employeeManager.getEmployee(empId), address);
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundExceptionMS(e);
         }
     }
 
-    public EmployeeResource deleteEmployee(int empId) {
+    public EmployeeResource deleteEmployee(int empId, boolean address) {
         try {
-            return empToResource(employeeManager.deleteEmployee(empId));
+            return empToResource(employeeManager.deleteEmployee(empId), address);
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundExceptionMS(e);
         }
@@ -113,22 +113,22 @@ public class EmployeeDataService {
         return string == null || string.equals("");
     }
 
-    public EmployeeResource putEmployee(int empId, EmployeeDto employeeDto) {
+    public EmployeeResource putEmployee(int empId, EmployeeDto employeeDto, boolean address) {
         checkEmployeeDto(employeeDto);
         Employee res = employeeManager.putEmployee(empId, empDtoToEmp(employeeDto));
-        return empToResource(res);
+        return empToResource(res, address);
     }
 
-    public List<EmployeeResource> deleteEmployeeResources() {
+    public List<EmployeeResource> deleteEmployeeResources(boolean address) {
         List<EmployeeResource> emps = new ArrayList<>();
         for (Employee emp : employeeManager.deleteEmployees()) {
-            emps.add(empToResource(emp));
+            emps.add(empToResource(emp, address));
         }
         return emps;
     }
 
-    public List<EmployeeResource> resetEmployeeResources(int amount) {
-        List<EmployeeResource> old = deleteEmployeeResources();
+    public List<EmployeeResource> resetEmployeeResources(int amount, boolean address) {
+        List<EmployeeResource> old = deleteEmployeeResources(address);
         if (amount > 100) amount = 100;
 
         employeeManager.addEmployee_Mock(amount);

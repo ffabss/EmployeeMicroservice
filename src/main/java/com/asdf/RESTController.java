@@ -20,13 +20,13 @@ public class RESTController {
 
 
     @RequestMapping(value = "/reset", method = RequestMethod.GET)
-    public HttpEntity<List<EmployeeResource>> resetEmployees() {
-        return resetEmployees(10);
+    public HttpEntity<List<EmployeeResource>> resetEmployees(@RequestParam(defaultValue = "false") boolean address) {
+        return resetEmployees(10, address);
     }
 
     @RequestMapping(value = "/reset/{amount}", method = RequestMethod.GET)
-    public HttpEntity<List<EmployeeResource>> resetEmployees(@PathVariable int amount) {
-        return new HttpEntity<>(employeeDataService.resetEmployeeResources(amount));
+    public HttpEntity<List<EmployeeResource>> resetEmployees(@PathVariable int amount, @RequestParam(defaultValue = "false") boolean address) {
+        return new HttpEntity<>(employeeDataService.resetEmployeeResources(amount, address));
     }
 
     @RequestMapping(value = "/validIds", method = RequestMethod.GET)
@@ -40,37 +40,37 @@ public class RESTController {
     }
 
     @RequestMapping(value = "/employees", method = RequestMethod.GET)
-    public HttpEntity<List<EmployeeResource>> getAllEmployees() {
-        return new HttpEntity<>(employeeDataService.getEmployeeResources());
+    public HttpEntity<List<EmployeeResource>> getAllEmployees(@RequestParam(defaultValue = "true") boolean address) {
+        return new HttpEntity<>(employeeDataService.getEmployeeResources(address));
     }
 
     @RequestMapping(value = "/clearEmployees", method = RequestMethod.DELETE)
-    public HttpEntity<List<EmployeeResource>> deleteAllEmployees() {
-        return new HttpEntity<>(employeeDataService.deleteEmployeeResources());
+    public HttpEntity<List<EmployeeResource>> deleteAllEmployees(@RequestParam(defaultValue = "true") boolean address) {
+        return new HttpEntity<>(employeeDataService.deleteEmployeeResources(address));
     }
 
     @RequestMapping(value = "/employees/{skip}/{amount}", method = RequestMethod.GET)
-    public HttpEntity<List<EmployeeResource>> getEmployees(@PathVariable int skip, @PathVariable int amount) {
-        return new HttpEntity<>(employeeDataService.getEmployeeResources(skip, amount));
+    public HttpEntity<List<EmployeeResource>> getEmployees(@PathVariable int skip, @PathVariable int amount, @RequestParam(defaultValue = "true") boolean address) {
+        return new HttpEntity<>(employeeDataService.getEmployeeResources(skip, amount, address));
     }
 
     @RequestMapping(value = "/employees/{empId}", method = RequestMethod.GET)
-    public HttpEntity<EmployeeResource> getEmployee(@PathVariable int empId) {
-        return new HttpEntity<>(employeeDataService.getEmployee(empId));
+    public HttpEntity<EmployeeResource> getEmployee(@PathVariable int empId, @RequestParam(defaultValue = "true") boolean address) {
+        return new HttpEntity<>(employeeDataService.getEmployee(empId, address));
     }
 
     @RequestMapping(value = "/employees/{empId}", method = RequestMethod.DELETE)
-    public HttpEntity<EmployeeResource> deleteEmployee(@PathVariable int empId) {
-        return new HttpEntity<>(employeeDataService.deleteEmployee(empId));
+    public HttpEntity<EmployeeResource> deleteEmployee(@PathVariable int empId, @RequestParam(defaultValue = "true") boolean address) {
+        return new HttpEntity<>(employeeDataService.deleteEmployee(empId, address));
     }
 
     @RequestMapping(value = "/employees/{empId}", method = RequestMethod.PUT)
-    public HttpEntity<EmployeeResource> putEmployee(@PathVariable int empId, @RequestBody EmployeeDto employeeDto) {
-        return new HttpEntity<>(employeeDataService.putEmployee(empId, employeeDto));
+    public HttpEntity<EmployeeResource> putEmployee(@PathVariable int empId, @RequestBody EmployeeDto employeeDto, @RequestParam(defaultValue = "true") boolean address) {
+        return new HttpEntity<>(employeeDataService.putEmployee(empId, employeeDto, address));
     }
 
     @RequestMapping(value = "/employees", method = RequestMethod.POST)
-    public EmployeeResource addEmployee(@RequestBody EmployeeDto employeeDto) {
-        return employeeDataService.addEmployeeDto(employeeDto);
+    public EmployeeResource addEmployee(@RequestBody EmployeeDto employeeDto, @RequestParam(defaultValue = "true") boolean address) {
+        return employeeDataService.addEmployeeDto(employeeDto, address);
     }
 }
