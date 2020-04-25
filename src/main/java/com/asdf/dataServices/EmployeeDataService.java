@@ -3,6 +3,7 @@ package com.asdf.dataServices;
 import com.asdf.dataObjects.Employee;
 import com.asdf.dataObjects.EmployeeDto;
 import com.asdf.dataObjects.EmployeeResource;
+import com.asdf.dataObjects.location.AddressResource;
 import com.asdf.dataObjects.location.LongitudeLatitude;
 import com.asdf.exceptions.ResourceNotFoundException;
 import com.asdf.exceptions.rest.InternalServerException;
@@ -44,7 +45,7 @@ public class EmployeeDataService {
     private EmployeeResource empToResource(Employee emp, boolean address) {
         EmployeeResource er = new EmployeeResource();
         er.setId(emp.getId());
-        er.setAddress(address ? locationIQDataService.getAddress(emp.getLongitude(), emp.getLatitude()) : "");
+        er.setAddress(address ? locationIQDataService.getAddress(emp.getLongitude(), emp.getLatitude()) : new AddressResource());
         er.setLatitude(emp.getLatitude());
         er.setLongitude(emp.getLongitude());
         er.setName(emp.getName());
