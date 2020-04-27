@@ -44,7 +44,7 @@ public class RESTController {
         return new HttpEntity<>(employeeDataService.getEmployeeResources(address));
     }
 
-    @RequestMapping(value = "/clearEmployees", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/employees", method = RequestMethod.DELETE)
     public HttpEntity<List<EmployeeResource>> deleteAllEmployees(@RequestParam(defaultValue = "true") boolean address) {
         return new HttpEntity<>(employeeDataService.deleteEmployeeResources(address));
     }
@@ -65,8 +65,8 @@ public class RESTController {
     }
 
     @RequestMapping(value = "/employees/{empId}", method = RequestMethod.PUT)
-    public HttpEntity<EmployeeResource> putEmployee(@PathVariable int empId, @RequestBody EmployeeDto employeeDto, @RequestParam(defaultValue = "true") boolean address) {
-        return new HttpEntity<>(employeeDataService.putEmployee(empId, employeeDto, address));
+    public HttpEntity<EmployeeResource> putEmployee(@PathVariable int empId, @RequestBody EmployeeResource employee, @RequestParam(defaultValue = "true") boolean address) {
+        return new HttpEntity<>(employeeDataService.putEmployee(empId, employee, address));
     }
 
     @RequestMapping(value = "/employees", method = RequestMethod.POST)

@@ -4,7 +4,6 @@ import com.asdf.dataObjects.location.AddressResource;
 import com.asdf.dataObjects.location.LocationResource;
 import com.asdf.dataObjects.location.LongitudeLatitude;
 import com.asdf.exceptions.rest.InternalServerException;
-import org.apache.tomcat.jni.Address;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;

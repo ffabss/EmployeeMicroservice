@@ -6,14 +6,11 @@ import com.asdf.dataObjects.EmployeeResource;
 import com.asdf.dataObjects.location.AddressResource;
 import com.asdf.dataObjects.location.LongitudeLatitude;
 import com.asdf.exceptions.ResourceNotFoundException;
-import com.asdf.exceptions.rest.InternalServerException;
 import com.asdf.exceptions.rest.InvalidDataExceptionMS;
 import com.asdf.exceptions.rest.ResourceNotFoundExceptionMS;
 import com.asdf.managers.EmployeeManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClientResponseException;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +53,8 @@ public class EmployeeDataService {
         Employee emp = new Employee();
         emp.setId(empr.getId());
         emp.setName(empr.getName());
-        LongitudeLatitude location = locationIQDataService.getLongitudeLatitudeByAddress(empr.getAddress());
-        emp.setLongitude(location.getLongitude());
-        emp.setLatitude(location.getLatitude());
+        emp.setLongitude(empr.getLongitude());
+        emp.setLatitude(empr.getLatitude());
         return emp;
     }
 
@@ -110,13 +106,25 @@ public class EmployeeDataService {
         }
     }
 
+    public void checkEmployeeResource(EmployeeResource employeeResource){
+        if (isNullOrEmpty(employeeResource.getName())) {
+            throw new InvalidDataExceptionMS("The name of the employee must be set");
+        }
+        if (isNullOrEmpty(employeeResource.getLatitude())) {
+            throw new InvalidDataExceptionMS("The latitude of the employee must be set");
+        }
+        if (isNullOrEmpty(employeeResource.getLongitude())) {
+            throw new InvalidDataExceptionMS("The longitude of the employee must be set");
+        }
+    }
+
     private boolean isNullOrEmpty(String string) {
         return string == null || string.equals("");
     }
 
-    public EmployeeResource putEmployee(int empId, EmployeeDto employeeDto, boolean address) {
-        checkEmployeeDto(employeeDto);
-        Employee res = employeeManager.putEmployee(empId, empDtoToEmp(employeeDto));
+    public EmployeeResource putEmployee(int empId, EmployeeResource employee, boolean address) {
+        checkEmployeeResource(employee);
+        Employee res = employeeManager.putEmployee(empId, empResToEmp(employee));
         return empToResource(res, address);
     }
 

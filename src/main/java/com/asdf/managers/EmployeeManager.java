@@ -1,7 +1,6 @@
 package com.asdf.managers;
 
 import com.asdf.dataObjects.Employee;
-import com.asdf.dataObjects.EmployeeDto;
 import com.asdf.dataObjects.EmployeeEntity;
 import com.asdf.database.EmployeeRepository;
 import com.asdf.exceptions.ResourceNotFoundException;
