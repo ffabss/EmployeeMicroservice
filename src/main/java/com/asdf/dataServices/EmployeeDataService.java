@@ -122,9 +122,9 @@ public class EmployeeDataService {
         return string == null || string.equals("");
     }
 
-    public EmployeeResource putEmployee(int empId, EmployeeResource employee, boolean address) {
-        checkEmployeeResource(employee);
-        Employee res = employeeManager.putEmployee(empId, empResToEmp(employee));
+    public EmployeeResource putEmployee(int empId, EmployeeDto employee, boolean address) {
+        checkEmployeeDto(employee);
+        Employee res = employeeManager.putEmployee(empId, empDtoToEmp(employee));
         return empToResource(res, address);
     }
 

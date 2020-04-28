@@ -65,7 +65,7 @@ public class RESTController {
     }
 
     @RequestMapping(value = "/employees/{empId}", method = RequestMethod.PUT)
-    public HttpEntity<EmployeeResource> putEmployee(@PathVariable int empId, @RequestBody EmployeeResource employee, @RequestParam(defaultValue = "true") boolean address) {
+    public HttpEntity<EmployeeResource> putEmployee(@PathVariable int empId, @RequestBody EmployeeDto employee, @RequestParam(defaultValue = "true") boolean address) {
         return new HttpEntity<>(employeeDataService.putEmployee(empId, employee, address));
     }
 
