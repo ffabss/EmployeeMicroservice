@@ -12,4 +12,7 @@ import java.util.List;
 public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integer> {
     @Query("select id from EmployeeEntity")
     public List<Integer> findAllIds();
+
+    @Query("SELECT e FROM EmployeeEntity e ORDER BY e.id ASC")
+    public List<EmployeeEntity> findAllOrderById();
 }

@@ -6,6 +6,7 @@ import com.asdf.database.EmployeeRepository;
 import com.asdf.exceptions.ResourceNotFoundException;
 import com.asdf.exceptions.rest.InternalServerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -29,7 +30,7 @@ public class EmployeeManager {
 
     public List<Employee> getEmployees() {
         List<Employee> emps = new ArrayList<>();
-        for (EmployeeEntity empe : employeeRepository.findAll()) {
+        for (EmployeeEntity empe : employeeRepository.findAllOrderById()) {
             emps.add(convertEntityToEmp(empe));
         }
         return emps;
@@ -103,7 +104,7 @@ public class EmployeeManager {
         CriteriaQuery<EmployeeEntity> criteriaQuery = criteriaBuilder
                 .createQuery(EmployeeEntity.class);
         Root<EmployeeEntity> from = criteriaQuery.from(EmployeeEntity.class);
-        CriteriaQuery<EmployeeEntity> select = criteriaQuery.select(from);
+        CriteriaQuery<EmployeeEntity> select = criteriaQuery.select(from).orderBy(criteriaBuilder.asc(from.get("id")));
         TypedQuery<EmployeeEntity> typedQuery = entityManager.createQuery(select);
         typedQuery.setFirstResult(skip);
         typedQuery.setMaxResults(amount);
