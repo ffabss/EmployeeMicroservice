@@ -6,7 +6,6 @@ import com.asdf.database.EmployeeRepository;
 import com.asdf.exceptions.ResourceNotFoundException;
 import com.asdf.exceptions.rest.InternalServerException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
