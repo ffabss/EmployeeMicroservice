@@ -106,7 +106,7 @@ public class EmployeeDataService {
         }
     }
 
-    public void checkEmployeeResource(EmployeeResource employeeResource){
+    public void checkEmployeeResource(EmployeeResource employeeResource) {
         if (isNullOrEmpty(employeeResource.getName())) {
             throw new InvalidDataExceptionMS("The name of the employee must be set");
         }
